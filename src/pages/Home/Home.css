@@ -1,0 +1,20 @@
+
+.img {
+    width: auto;
+    height: auto;
+    filter: brightness(.7);
+
+}
+
+.whole-page {
+
+    height: calc(100vh - 70px);
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Poppins',sans-serif;
+}
+
+.margBottom {
+    margin-bottom: 60px;
+}
