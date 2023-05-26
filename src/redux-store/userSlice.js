@@ -24,23 +24,12 @@ const onSuccessAuth = (state, action) => {
     state.authenticated = true;
     state.authenticationFailed = false;
     state.loading = false;
-    state.user = action.payload;
-    const {is_superuser, is_staff} = action.payload;
-    if (is_superuser === 1 && is_staff === 1) {
-        state.role = 0; //admin
-    } else if (is_superuser === 0 && is_staff === 1) {
-        state.role = 1; //moderator
-    } else if (is_superuser === 0 && is_staff === 0) {
-        state.role = 2; //posjetilac
-    } else {
-        state.role = null;
-    }
 };
 const logoutAction = (state) => {
-    authService.logout();
     state.authenticated = false;
     state.loading = false;
     state.user = null;
+    authService.logout();
 }
 
 const userSlice = createSlice({
@@ -70,6 +59,16 @@ const userSlice = createSlice({
             state.authenticated = true;
             state.loading = false;
             state.user = action.payload;
+            const {is_superuser, is_staff} = action.payload;
+            if (is_superuser === true && is_staff === true) {
+                state.role = 0; //admin
+            } else if (is_superuser === false && is_staff === true) {
+                state.role = 1; //moderator
+            } else if (is_superuser === false && is_staff === false) {
+                state.role = 2; //posjetilac
+            } else {
+                state.role = null;
+            }
         },
         [status.pending]: (state) => {
             state.loading = true;

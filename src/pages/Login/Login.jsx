@@ -16,10 +16,10 @@ const Login = () => {
     const [statusCode, setStatusCode] = useState(null);
 
     const { authenticated, loading } = useSelector((state) => state.users);
+    const resetpasswordUrl=`${window.location.protocol}//${window.location.hostname}:8000/users/reset_password/`;
 
     const onSubmit = async (loginData) => {
         const response = await dispatch(login(loginData));
-        console.log(response);
         if (response.error) {
             setStatusCode(response.error.message);
             return;
@@ -78,6 +78,9 @@ const Login = () => {
                     </p>
 
                 }
+                <p className={styled["signup-link"]}>
+                    <Link to="/register" target='_blank' to={resetpasswordUrl} className={styled.LoginLink}>Forgot password?</Link>
+                </p>
                 <button className={styled.submit} type="submit" disabled={loading}>
                     {loading ? 'Loading...' : 'Login'}
                 </button>

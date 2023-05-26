@@ -17,7 +17,7 @@ export default function Navbar() {
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [show, setShow] = useState(false);
-    const { authenticated } = useSelector((state) => state.users);
+    const { authenticated, role } = useSelector((state) => state.users);
 
     const adminUrl = `${window.location.protocol}//${window.location.hostname}:8000/admin`;
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function Navbar() {
         <div className='navbarMenu'>
             <div className='logo-map'>
                 <img className='confLogo' src={Logo} alt="Logo" />
-                <Link className='home underline' to="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
+                { !authenticated && <Link className='home underline' to="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>}
 
             </div>
 
@@ -57,25 +57,19 @@ export default function Navbar() {
                 }
 
 
-
                 {
-                    authenticated &&
-                    <DropdownButton
-                        title={<Person style={{ color: 'white' }} />}
-                        variant='secondary'
-                        onToggle={(isOpen) => setShowDropdown(isOpen)}
-                        show={showDropdown}
-                    >
-                        <Dropdown.Item onClick={handleChangePassword}>
-                            <Lock style={{ marginRight: '8px' }} />
-                            Change password
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={handleLogout}>
-                            <Power style={{ marginRight: '8px' }} />
-                            Log out
-                        </Dropdown.Item>
-                    </DropdownButton>
+                    authenticated && (role == 2) && <Link className='home underline'  style={{ color: "white", textDecoration: "none" }}>Conferences</Link>
                 }
+                {
+                    authenticated && <Link className='home underline'  style={{ color: "white", textDecoration: "none" }}>My conferences</Link>
+                }
+                {
+                    authenticated &&  <Link className='home underline' style={{ color: "white", textDecoration: "none" }}>My profile</Link>
+                }
+                {
+                    authenticated &&  <Link className='home underline' onClick={handleLogout} style={{ color: "white", textDecoration: "none" }}>LOGOUT</Link>
+                }
+
             </div>
 
             <ChangePassword show={show} handleClose={handleClose} />
