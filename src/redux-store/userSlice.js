@@ -29,6 +29,7 @@ const logoutAction = (state) => {
     state.authenticated = false;
     state.loading = false;
     state.user = null;
+    state.role = null;
     authService.logout();
 }
 

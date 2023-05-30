@@ -1,0 +1,99 @@
+.user-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.user-details {
+    text-align: center;
+    padding: 60px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-label {
+    flex: 2;
+    text-align: left;
+}
+
+.form-input {
+    flex: 1;
+    text-align: right;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Poravnanje sa leve strane */
+    gap: 8px;
+    text-align: left; /* Poravnanje teksta sa leve strane */
+}
+
+.edit-button {
+    position: relative;
+    left: 300px;
+    bottom: 230px;
+}
+
+.edit-button button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #3d3b3a;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.edit-button button:hover {
+    color: #007bff;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.edit-buttons button {
+    padding: 8px 16px;
+    background-color: #0a75bf;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-buttons button:hover {
+    background-color: #d32f2f;
+}
+
+.edit-buttons button:focus {
+    outline: none;
+}
+
+.change-button {
+    position: relative;
+    left: 70px;
+    bottom: -5px;
+}
+
+.change-button button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #3d3b3a;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.change-button button:hover {
+    color: #007bff;
+}

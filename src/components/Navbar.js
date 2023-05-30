@@ -1,8 +1,5 @@
-//styling & components
 import './Navbar.css';
 import Logo from '../assets/logo1.png';
-import { Person, Power, Lock } from "react-bootstrap-icons";
-import { Dropdown, DropdownButton } from 'react-bootstrap';
 import ChangePassword from "./ChangePassword/ChangePassword";
 
 //redux, state & router
@@ -10,8 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logout, status } from '../redux-store/userSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from 'react';
-export default function Navbar() {
 
+export default function Navbar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -20,6 +17,7 @@ export default function Navbar() {
     const { authenticated, role } = useSelector((state) => state.users);
 
     const adminUrl = `${window.location.protocol}//${window.location.hostname}:8000/admin`;
+
     useEffect(() => {
         dispatch(status());
     }, [dispatch]);
@@ -36,40 +34,97 @@ export default function Navbar() {
         handleShow();
     }
 
+    const [activeLink, setActiveLink] = useState('');
+
+    const handleLinkClick = (link) => {
+        setActiveLink(link);
+    }
+
     return (
         <div className='navbarMenu'>
             <div className='logo-map'>
                 <img className='confLogo' src={Logo} alt="Logo" />
-                { !authenticated && <Link className='home underline' to="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>}
-
+                {!authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'home' ? 'active' : ''}`}
+                        to="/"
+                        onClick={() => handleLinkClick('home')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        Home
+                    </Link>
+                )}
             </div>
 
-
             <div className='twoItems'>
-                {
+                {!authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'admin' ? 'active' : ''}`}
+                        target='_blank'
+                        to={adminUrl}
+                        onClick={() => handleLinkClick('admin')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        Admin
+                    </Link>
+                )}
 
-                    !authenticated && <Link className='home underline' target='_blank' to={adminUrl} style={{ color: "white", textDecoration: "none" }}>Admin</Link>
-                }
+                {!authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'login' ? 'active' : ''}`}
+                        to="/login"
+                        onClick={() => handleLinkClick('login')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        Login
+                    </Link>
+                )}
 
-                {
+                {authenticated && role == 2 && (
+                    <Link
+                        className={`home underline ${activeLink === 'conferences' ? 'active' : ''}`}
+                        style={{ color: "white", textDecoration: "none" }}
+                        onClick={() => handleLinkClick('conferences')}
+                    >
+                        Conferences
+                    </Link>
+                )}
 
-                    !authenticated && <Link className='home underline' to="/login" style={{ color: "white", textDecoration: "none" }}>Login</Link>
-                }
+                {authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'myConferences' ? 'active' : ''}`}
+                        to="/allConferences"
+                        onClick={() => handleLinkClick('myConferences')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        My conferences
+                    </Link>
+                )}
 
+                {authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'myProfile' ? 'active' : ''}`}
+                        to="/myProfile"
+                        style={{ color: "white", textDecoration: "none" }}
+                        onClick={() => handleLinkClick('myProfile')}
+                    >
+                        My profile
+                    </Link>
+                )}
 
-                {
-                    authenticated && (role == 2) && <Link className='home underline'  style={{ color: "white", textDecoration: "none" }}>Conferences</Link>
-                }
-                {
-                    authenticated && <Link className='home underline'  style={{ color: "white", textDecoration: "none" }}>My conferences</Link>
-                }
-                {
-                    authenticated &&  <Link className='home underline' style={{ color: "white", textDecoration: "none" }}>My profile</Link>
-                }
-                {
-                    authenticated &&  <Link className='home underline' onClick={handleLogout} style={{ color: "white", textDecoration: "none" }}>LOGOUT</Link>
-                }
-
+                {authenticated && (
+                    <Link
+                        className={`home underline ${activeLink === 'logout' ? 'active' : ''}`}
+                        to="/"
+                        onClick={() => {
+                            handleLogout();
+                            handleLinkClick('logout');
+                        }}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        LOGOUT
+                    </Link>
+                )}
             </div>
 
             <ChangePassword show={show} handleClose={handleClose} />

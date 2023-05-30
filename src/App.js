@@ -5,7 +5,8 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
-
+import Accordion from "./components/ConferenceList/Accordion";
+import UserDetails from "./components/UserDetails/UserDetails";
 function App() {
 
   return (
@@ -19,7 +20,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register/>}/>
-            <Route path="*" element={<NotFound/>}/>
+              <Route path="/allConferences" element={<Accordion/>}/>
+              <Route path="/myProfile" element={<UserDetails/>}/>
+              <Route path="*" element={<NotFound/>}/>
 
           </Routes>
 

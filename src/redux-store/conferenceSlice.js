@@ -71,13 +71,13 @@ export const getConferencesVisitor = createAsyncThunk("conferences/getConference
 const conferenceSlice = createSlice({
     name: "conferences",
     initialState: {
-        conferences: [],
+        confs: [],
     },
     reducers: {},
     extraReducers: {
         [getAllConferences.fulfilled]: (state, action) => {
             state.loading = false;
-            state.conferences = action.payload;
+            state.confs = action.payload;
         },
         [getAllConferences.pending]: (state, action) => {
             state.loading = true;

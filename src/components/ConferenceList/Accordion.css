@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    background: rgb(238, 174, 202);
+    background: radial-gradient(
+            circle,
+            rgba(40, 40, 40, 1) 5%,
+            rgba(30, 30, 30, 1) 30%,
+            rgba(20, 20, 20, 1) 60%
+    );
+}
+
+h1 {
+    text-align: center;
+    margin: 2rem 0 4rem 0;
+}
+
+.accordion {
+    max-width: 700px;
+    margin: 2rem auto;
+}
+
+.accordion-title,
+.accordion-title-event {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.accordion-title {
+    background-color: #555555;
+}
+.accordion-title-event {
+    background-color: #5ea3a3;
+}
+
+.accordion-title-event:hover {
+    background-color: #8b9dc3;
+}
+.accordion-title:hover {
+    background-color: #8b9dc3;
+}
+.accordion-container {
+    width: 100%;
+}
+
+.accordion-title,
+.accordion-content,
+.accordion-title-event,
+.accordion-content-event{
+    position: relative;
+    padding: 1rem;
+}
+
+.accordion-content {
+    background-color: #555555;
+}
+
+.accordion-content-event {
+    background-color: #5ea3a3;
+    height: 250px;
+}
+.qr-code-container {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.2rem;
+}
+
+@media screen and (max-width: 700px) {
+    body {
+        font-size: 18px;
+    }
+
+    .accordion {
+        width: 90%;
+    }
+}
+
+.underline {
+    background-image: linear-gradient(
+            to right,
+            #54b3d6,
+            #54b3d6 50%,
+            #000 50%
+    );
+    background-size: 203% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: all 0.4s ease-in-out;
+}
+
+.underline:before {
+    content: '';
+    background: #54b3d6;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.underline:hover {
+    background-position: 0;
+}
+
+.underline:hover::before {
+    width:100%;
+}
+.active {
+    color: blue;
+}
+
+.round-button {
+    position: fixed;
+    right: 5%;
+    bottom: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #488b8f;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.round-button:hover {
+    background-color: #488b8f;
+    cursor: pointer;
+}
