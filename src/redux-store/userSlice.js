@@ -13,7 +13,7 @@ export const updateUser = createAsyncThunk("users/updateUser", async ({value}) =
     return await userService.updateUser(value);
 });
 
-export const getStaffUser = createAsyncThunk("users/getStaffUsers", async ({value}) => {
+export const getStaffUser = createAsyncThunk("users/getStaffUsers", async () => {
     return await userService.staff();
 });
 export const status = createAsyncThunk("users/status", async () => {
@@ -105,7 +105,6 @@ const userSlice = createSlice({
         [changePassword.fulfilled]: (state, action) => {
             state.authenticated = true;
             state.loading = false;
-            state.user = action.payload;
         },
         [changePassword.pending]: (state, action) => {
             state.loading = true;

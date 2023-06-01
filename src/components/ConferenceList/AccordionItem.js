@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './Accordion.css';
 import QRCode from 'qrcode';
 import Accordion from "./Accordion";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
+import {setSelectedConference} from "../../redux-store/conferenceSlice";
 const AccordionItem = ({ arg }) => {
 
     const [isActive, setIsActive] = useState(false);
     const [qrCode, setQRCode] = useState('');
     const {role} = useSelector((state) => state.users);
-
+    const dispath = useDispatch();
     const formattedDate = (date) =>
         new Date(date).toLocaleDateString('en-US', {
             month: "2-digit",
@@ -37,6 +38,10 @@ const AccordionItem = ({ arg }) => {
         setActiveLink(link);
     }
 
+    const handleSetConference = (arg) => {
+        dispath(setSelectedConference(arg));
+    }
+
     useEffect(() => {
         if (arg.url) {
             generateQRCode(arg.url);
@@ -60,9 +65,12 @@ const AccordionItem = ({ arg }) => {
                 {arg && arg.creator && (
                     <>
                         <Link
-                            to="/login"
+                            to="/editConference"
                             className={`home underline ${activeLink === 'edit' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('edit')}
+                            onClick={() => {
+                                handleLinkClick('edit');
+                                handleSetConference(arg);
+                            }}
                             style={{ color: "white", textDecoration: "none", fontSize:"14px", marginLeft:"150px", marginRight:"-250px" }}
                         >
                             Edit

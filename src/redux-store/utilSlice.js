@@ -2,11 +2,20 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import locationService from "../api/location.service.js";
 import ratingService from "../api/rating.service.js";
 import reserved_itemsService from "../api/reserved_items.service.js";
+import event_typeService from "../api/event_type.service";
 
 
 export const getLocations = createAsyncThunk("utils/getAllLocations", async ({rejectWithValue}) => {
     try {
         return await locationService.getAllLocations();
+    } catch (err) {
+        return rejectWithValue("There is some problem with getting data. Please try later.");
+    }
+});
+
+export const getEventTypes = createAsyncThunk("utils/getEventTypes", async ({rejectWithValue}) => {
+    try {
+        return await event_typeService.getAllEventTypes();
     } catch (err) {
         return rejectWithValue("There is some problem with getting data. Please try later.");
     }
@@ -54,6 +63,7 @@ const utilSlice = createSlice({
     name: "utils",
     initialState: {
         locations: [],
+        eventTypes: [],
     },
     reducers: {},
     extraReducers: {
@@ -102,6 +112,16 @@ const utilSlice = createSlice({
             state.loading = true;
         },
         [deleteReservedItem.rejected]: (state, action) => {
+            state.loading = false;
+        },
+        [getEventTypes.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.eventTypes = action.payload;
+        },
+        [getEventTypes.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getEventTypes.rejected]: (state, action) => {
             state.loading = false;
         },
     }

@@ -60,6 +60,11 @@ export const getConferenceOrganizer = createAsyncThunk("conferences/getConferenc
     }
 });
 
+const setConference = (state, action) =>
+{
+    state.selectedConf = action.payload;
+}
+
 export const getConferencesVisitor = createAsyncThunk("conferences/getConferencesVisitor", async ({rejectWithValue}) => {
     try {
         return await conferenceService.getAllVisitorConferences();
@@ -68,12 +73,16 @@ export const getConferencesVisitor = createAsyncThunk("conferences/getConference
     }
 });
 
+
 const conferenceSlice = createSlice({
     name: "conferences",
     initialState: {
         confs: [],
+        selectedConf: null,
     },
-    reducers: {},
+    reducers: {
+        setSelectedConference: setConference,
+    },
     extraReducers: {
         [getAllConferences.fulfilled]: (state, action) => {
             state.loading = false;
@@ -153,4 +162,5 @@ const conferenceSlice = createSlice({
 
 });
 
+export const {setSelectedConference} = conferenceSlice.actions;
 export default conferenceSlice.reducer;

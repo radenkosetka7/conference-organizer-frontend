@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
 import Accordion from "./components/ConferenceList/Accordion";
 import UserDetails from "./components/UserDetails/UserDetails";
+import EditConference from "./components/EditModal/EditConference";
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/register" element={<Register/>}/>
               <Route path="/allConferences" element={<Accordion/>}/>
               <Route path="/myProfile" element={<UserDetails/>}/>
+              <Route path="/editConference" element={<EditConference/>}/>
               <Route path="*" element={<NotFound/>}/>
 
           </Routes>

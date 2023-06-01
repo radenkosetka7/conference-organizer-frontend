@@ -39,6 +39,9 @@
     left: 300px;
     bottom: 230px;
 }
+.errorMessage {
+    color: red;
+}
 
 .edit-button button {
     display: flex;
