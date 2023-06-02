@@ -3,14 +3,43 @@ import './Accordion.css';
 import QRCode from 'qrcode';
 import Accordion from "./Accordion";
 import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
 import {setSelectedConference} from "../../redux-store/conferenceSlice";
+import VisitorsModal from "../VisitorsModal/VisitorsModal";
+import MarksModal from "../MarksModal/MarksModal";
+import AddMark from "../MarksModal/AddMark";
 const AccordionItem = ({ arg }) => {
 
     const [isActive, setIsActive] = useState(false);
     const [qrCode, setQRCode] = useState('');
     const {role} = useSelector((state) => state.users);
     const dispath = useDispatch();
+    const [showVisitors,setShowVisitors]= useState(false);
+    const [showMarks,setShowMarks]= useState(false);
+    const [rateConference,setRateConference]= useState(false);
+
+    const handleOpenRateConferenceModal = () => {
+        setRateConference(true);
+    };
+
+    const handleCloseRateConferenceModal = () => {
+        setRateConference(false);
+    };
+
+    const handleOpenVisitorsModal = () => {
+        setShowVisitors(true);
+    };
+
+    const handleCloseVisitorsModal = () => {
+        setShowVisitors(false);
+    };
+
+    const handleOpenMarksModal = () => {
+        setShowMarks(true);
+    };
+
+    const handleCloseMarksModal = () => {
+        setShowMarks(false);
+    };
     const formattedDate = (date) =>
         new Date(date).toLocaleDateString('en-US', {
             month: "2-digit",
@@ -62,27 +91,27 @@ const AccordionItem = ({ arg }) => {
         <div className="accordion-item">
             <div className={arg && arg.moderator ? "accordion-title-event" : "accordion-title"} onClick={() => setIsActive(!isActive)}>
                 <div>{arg.name}</div>
-                {arg && arg.creator && (
+                {arg && arg.creator && arg.finished === false && role === 0 &&(
                     <>
-                        <Link
-                            to="/editConference"
-                            className={`home underline ${activeLink === 'edit' ? 'active' : ''}`}
+                        <button className="button-edit"
                             onClick={() => {
-                                handleLinkClick('edit');
                                 handleSetConference(arg);
                             }}
-                            style={{ color: "white", textDecoration: "none", fontSize:"14px", marginLeft:"150px", marginRight:"-250px" }}
+
                         >
                             Edit
-                        </Link>
-                        <Link
-                            to="/login"
-                            className={`home underline ${activeLink === 'delete' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('delete')}
-                            style={{ color: "red", textDecoration: "none", fontSize:"14px", marginLeft:"100px", marginRight:"-140px" }}
-                        >
+                        </button>
+                        <button className="button-delete"
+                            onClick={() => handleLinkClick('delete')}>
                             Delete
-                        </Link>
+                        </button>
+                    </>
+                )}
+                {arg && arg.creator && arg.finished === true && role === 0 && (
+                    <>
+                        <button className="button-edit" onClick={handleOpenRateConferenceModal}>Rate the conference
+                       </button>
+                        {rateConference && <AddMark show={rateConference} onClose={handleCloseRateConferenceModal}/>}
                     </>
                 )}
                 <div>{isActive ? '-' : '+'}</div>
@@ -133,14 +162,10 @@ const AccordionItem = ({ arg }) => {
                         { arg && arg.creator && (
                         <>
                             <label>Marks: </label>
-                            <Link
-                            to="/login"
-                            className={`home underline ${activeLink === 'marks' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('marks')}
-                            style={{ color: "black", textDecoration: "none", fontSize:"14px" }}
-                            >
-                            Marks
-                            </Link>
+                            <button className="button" onClick={handleOpenMarksModal}>
+                            MARKS
+                            </button>
+                            {showMarks && <MarksModal arg={arg} show={showMarks} onClose={handleCloseMarksModal}/>}
                         </>)
                         }
                     </div>
@@ -164,14 +189,10 @@ const AccordionItem = ({ arg }) => {
                         { arg && arg.moderator && (
                             <>
                                 <label>Visitors: </label>
-                                <Link
-                                    to="/login"
-                                    className={`home underline ${activeLink === 'visitors' ? 'active' : ''}`}
-                                    onClick={() => handleLinkClick('visitors')}
-                                    style={{ color: "black", textDecoration: "none", fontSize:"14px" }}
-                                >
-                                    Visitors
-                                </Link>
+                                <button className="button" onClick={handleOpenVisitorsModal}>
+                                    VISITORS
+                                </button>
+                                {showVisitors && <VisitorsModal arg={arg} show={showVisitors} onClose={handleCloseVisitorsModal}/>}
                             </>)
                         }
                     </div>

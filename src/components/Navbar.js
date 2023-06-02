@@ -1,6 +1,5 @@
 import './Navbar.css';
 import Logo from '../assets/logo1.png';
-import ChangePassword from "./ChangePassword/ChangePassword";
 
 //redux, state & router
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,18 +21,13 @@ export default function Navbar() {
         dispatch(status());
     }, [dispatch]);
 
-    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleLogout = () => {
         dispatch(logout());
         navigate('/');
     }
-
-    const handleChangePassword = () => {
-        handleShow();
-    }
-
+    
     const [activeLink, setActiveLink] = useState('');
 
     const handleLinkClick = (link) => {
@@ -126,8 +120,6 @@ export default function Navbar() {
                     </Link>
                 )}
             </div>
-
-            <ChangePassword show={show} handleClose={handleClose} />
         </div>
     )
 }
