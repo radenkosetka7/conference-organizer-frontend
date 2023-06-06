@@ -3,7 +3,7 @@ const VisitorsModal = ({arg,show,onClose}) => {
     const title1=`${arg.name} Visitors`;
     return (
         <>
-            <Modal title={title1} footer={[
+            <Modal maskClosable={false} title={title1} footer={[
                 <Button key="cancel" onClick={onClose} bodyStyle={{ maxHeight: '300px', overflowY: 'auto' }}>
                     Cancel
                 </Button>

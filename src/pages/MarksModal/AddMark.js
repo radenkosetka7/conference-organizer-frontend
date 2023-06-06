@@ -16,7 +16,7 @@ const AddMark = ({show,onClose}) => {
 
     return (
         <>
-            <Modal title={title1} footer={[
+            <Modal maskClosable={false} title={title1} footer={[
             ]} open={show} onCancel={onClose} bodyStyle={{ maxHeight: '300px', overflowY: 'auto' }}>
                 <Form
                     labelCol={{ span: 4 }}

@@ -3,6 +3,9 @@ import AccordionItem from "./AccordionItem";
 import './Accordion.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getAllConferences} from "../../redux-store/conferenceSlice";
+import SearchComponent from "../../components/Search/SearchComponent";
+import FilterComponent from "../../components/Filter/FilterComponent";
+import DateComponent from "../../components/Date/DateComponent";
 const Accordion = (props) => {
 
     const dispatch = useDispatch();
@@ -22,6 +25,23 @@ const Accordion = (props) => {
 
     return (
         <div>
+            {props.events ? (
+                <>
+                </>
+            ):
+            <>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ flex: 1 }}>
+                        <SearchComponent />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                        <FilterComponent />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                        <DateComponent />
+                    </div>
+                </div>
+            </>}
             <div className="accordion">
                 {props.events ? (
                     events.map((event) => (

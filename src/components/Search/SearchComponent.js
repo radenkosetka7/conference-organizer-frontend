@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { AudioOutlined } from '@ant-design/icons';
+import { Input, Space } from 'antd';
 
-const SearchComponent = () => {
-    const [searchTerm, setSearchTerm] = useState('');
+const { Search } = Input;
 
-    const handleInputChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+const onSearch = (value) => console.log(value);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Ovdje možete dodati logiku za pretraživanje na temelju search terma
-        console.log('Pretraži:', searchTerm);
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Pretraži..."
-                value={searchTerm}
-                onChange={handleInputChange}
-            />
-            <button type="submit">Pretraži</button>
-        </form>
-    );
-};
+const SearchComponent = () => (
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+        <div style={{ flex: 1,width: '100%', height: '100%' }}>
+            <Space direction="vertical" style={{ width: "300px", marginLeft:"330px", marginTop:"20px"}}>
+                <Search
+                    placeholder="Search by name..."
+                    onSearch={onSearch}
+                />
+            </Space>
+        </div>
+    </div>
+);
 
 export default SearchComponent;

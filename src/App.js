@@ -5,9 +5,9 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
-import Accordion from "./components/ConferenceList/Accordion";
-import UserDetails from "./components/UserDetails/UserDetails";
-import EditConference from "./components/EditModal/EditConference";
+import Accordion from "./pages/ConferenceList/Accordion";
+import UserDetails from "./pages/UserDetails/UserDetails";
+import EditConference from "./pages/EditModal/EditConference";
 function App() {
 
   return (

@@ -4,7 +4,7 @@ const MarksModal = ({arg,show,onClose}) => {
     const title1=`${arg.name} Marks`;
     return (
         <>
-            <Modal title={title1} footer={[
+            <Modal maskClosable={false} title={title1} footer={[
                 <Button key="cancel" onClick={onClose}>
                     Cancel
                 </Button>

@@ -107,7 +107,7 @@ const AccordionItem = ({ arg }) => {
                         </button>
                     </>
                 )}
-                {arg && arg.creator && arg.finished === true && role === 0 && (
+                {arg && arg.creator && arg.finished === true && role === 1 && (
                     <>
                         <button className="button-edit" onClick={handleOpenRateConferenceModal}>Rate the conference
                        </button>
