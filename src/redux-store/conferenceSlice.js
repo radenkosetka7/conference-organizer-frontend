@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import conferenceService from "../api/conference.service.js";
 
-export const getAllConferences = createAsyncThunk("conferences/getAllConferences", async ({rejectWithValue}) => {
+export const getAllConferences = createAsyncThunk("conferences/getAllConferences", async (params,{rejectWithValue}) => {
     try {
-        return await conferenceService.getAllConferences();
+        const { search, start, end, finished } = params;
+        return await conferenceService.getAllConferences(search,start,end,finished);
     } catch (err) {
         return rejectWithValue("There is some problem with getting data. Please try later.");
     }
@@ -114,7 +115,10 @@ const conferenceSlice = createSlice({
             state.loading = false;
         },
         [deleteConference.fulfilled]: (state, action) => {
-            return state.filter((el) => el.id !== action.payload);
+            const deletedKonferencija = action.payload;
+            state.confs=state.confs.filter((el) => el.id !== deletedKonferencija.id);
+            state.loading=false;
+            state.error=null;
         },
         [deleteConference.pending]: (state, action) => {
             state.loading = true;

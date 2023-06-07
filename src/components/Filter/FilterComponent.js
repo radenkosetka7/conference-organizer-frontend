@@ -1,25 +1,23 @@
 import { Select } from 'antd';
-const handleChange = (value) => {
-    console.log(`selected ${value}`);
-};
-const FilterComponent = () => (
-    <Select
+
+const FilterComponent = (props) => (
+    <Select allowClear
         defaultValue="Status"
         style={{
             width: "100px", marginLeft:"10px", marginTop:"20px"
         }}
-        onChange={handleChange}
+        onChange={props.onSelectConferences}
         options={[
             {
                 label: 'Status',
                 options: [
                     {
                         label: 'Active',
-                        value: 'active',
+                        value: 0,
                     },
                     {
                         label: 'Finished',
-                        value: 'finished',
+                        value: 1,
                     },
                 ],
             }

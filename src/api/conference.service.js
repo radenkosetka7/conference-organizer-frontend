@@ -2,9 +2,33 @@ import base from "./base.service";
 
 const instance = base.service(true);
 
-export const getAllConferences = () => {
+export const getAllConferences = (search,start,end,finished) => {
+    let urlFetch = 'conferences/conferences/list/';
+    let params= [];
+
+    if(search)
+    {
+        params.push(`search=${encodeURIComponent(search)}`);
+    }
+    if(start)
+    {
+        params.push(`start_date=${encodeURIComponent(start)}`);
+    }
+    if(end)
+    {
+        params.push(`end_date=${encodeURIComponent(end)}`);
+    }
+    if(finished != null)
+    {
+        params.push(`finished=${encodeURIComponent(finished)}`);
+    }
+    if(params.length>0)
+    {
+        urlFetch += `?${params.join('&')}`;
+    }
+
     return instance
-        .get('conferences/conferences/list/')
+        .get(urlFetch)
         .then((result)=>result.data)
 };
 

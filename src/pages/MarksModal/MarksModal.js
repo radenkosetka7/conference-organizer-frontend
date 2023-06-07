@@ -10,7 +10,7 @@ const MarksModal = ({arg,show,onClose}) => {
                 </Button>
             ]} open={show} onCancel={onClose} bodyStyle={{ maxHeight: '300px', overflowY: 'auto' }}>
                 <ul style={{padding:0, listStyle:"none"}}>
-                    {arg.ratings.map((user) => (
+                    { arg.ratings.length>0 && arg.ratings.map((user) => (
                         <li style={{fontSize:16}} key={user.id}>
                             <p>------------</p>
                             <div><label>Stars: {user.stars}</label></div>
@@ -18,6 +18,13 @@ const MarksModal = ({arg,show,onClose}) => {
                            <div> <label>User: {user.user.first_name} {user.user.last_name}</label></div>
                         </li>
                     ))}
+                    {
+                        arg.ratings.length<1 && (
+                            <li style={{fontSize:16}}>
+                                There is no given marks for this conference!
+                            </li>
+                        )
+                    }
                 </ul>
             </Modal>
         </>

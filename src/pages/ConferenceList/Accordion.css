@@ -65,7 +65,7 @@ h1 {
 
 .accordion-content-event {
     background-color: #5ea3a3;
-    height: 250px;
+    height: 350px;
 }
 .qr-code-container {
     position: absolute;
@@ -160,16 +160,18 @@ h1 {
     border: none;
     font: inherit;
     cursor: pointer;
+    position: absolute;
     text-decoration: underline;
     font-size: 18px;
-    margin-right: -300px;
 }
 .button-edit
 {
+    margin-left: 580px;
     color: white;
 }
 .button-delete{
     color: red;
+    margin-left: 630px;
 }
 .button-mark {
     background: none;
@@ -181,4 +183,15 @@ h1 {
     margin-right: -300px;
     color: white;
 
+}
+.button-delete1 {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 18px;
+    margin-left: 630px;
+    position: absolute;
+    color: red;
 }

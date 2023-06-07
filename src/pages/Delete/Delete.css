@@ -1,0 +1,46 @@
+.obrisi {
+    background-image: linear-gradient(79deg, white, white 48%, white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+}
+
+.obrisiContent {
+    background-color: lightgray; /* White background for the content */
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+
+    width: 300px;
+    height: 140px;
+}
+
+.obrisi h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.obrisi button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    color: black;
+}
+
+.obrisi button {
+    background-color: #3498db; /* Red color for the "Da" button */
+}
+
+.obrisi button:hover {
+    opacity: 0.8; /* Reduce opacity on hover for visual feedback */
+}
