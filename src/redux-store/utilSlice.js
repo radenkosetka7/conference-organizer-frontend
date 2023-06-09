@@ -78,7 +78,8 @@ const utilSlice = createSlice({
             state.loading = false;
         },
         [createRating.fulfilled]: (state, action) => {
-            return [...state, action.payload];
+            state.loading=false;
+            state.error=null;
         },
         [createRating.pending]: (state, action) => {
             state.loading = true;
@@ -87,7 +88,8 @@ const utilSlice = createSlice({
             state.loading = false;
         },
         [createReservedItem.fulfilled]: (state, action) => {
-            return [...state, action.payload];
+            state.loading=false;
+            state.error=null;
         },
         [createReservedItem.pending]: (state, action) => {
             state.loading = true;
@@ -96,8 +98,8 @@ const utilSlice = createSlice({
             state.loading = false;
         },
         [updateReservedItem.fulfilled]: (state, action) => {
-            const data = action.payload;
-            return state.map((el) => (el.id === data.id ? {...el, ...data} : el));
+            state.loading=false;
+            state.error=null;
         },
         [updateReservedItem.pending]: (state, action) => {
             state.loading = true;
@@ -106,7 +108,8 @@ const utilSlice = createSlice({
             state.loading = false;
         },
         [deleteReservedItem.fulfilled]: (state, action) => {
-            return state.filter((el) => el.id !== action.payload);
+            state.loading=false;
+            state.error=null;
         },
         [deleteReservedItem.pending]: (state, action) => {
             state.loading = true;

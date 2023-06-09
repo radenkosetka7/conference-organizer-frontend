@@ -1,5 +1,6 @@
+/* Assuming the class name for the root element of the component is "Obrisi" */
 .obrisi {
-    background-image: linear-gradient(79deg, white, white 48%, white);
+    background-image: linear-gradient(79deg, white, white 48%, gray);
     position: fixed;
     top: 0;
     left: 0;
@@ -35,12 +36,19 @@
     font-size: 14px;
     cursor: pointer;
     color: black;
+    background-color: #3498db;
 }
 
-.obrisi button {
-    background-color: #3498db; /* Red color for the "Da" button */
+.obrisi button:first-child {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.obrisi button:last-child {
+    background-color: #e74c3c;
+    color: #fff;
 }
 
 .obrisi button:hover {
-    opacity: 0.8; /* Reduce opacity on hover for visual feedback */
+    opacity: 0.8;
 }

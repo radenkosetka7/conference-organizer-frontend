@@ -1,15 +1,13 @@
 import Modal from "../Modal/Modal";
 import { useDispatch } from "react-redux";
 import {deleteConference} from "../../redux-store/conferenceSlice";
-import './Delete.css'
-
+import classes from "./Delete.module.css"
 const Delete = (props) => {
     const { onClose, conference,  idConf } = props;
     const dispatch = useDispatch();
 
     const handleObrisi = () => {
 
-        console.log("idKonferencije u Obrisi", idConf);
         dispatch(deleteConference({ id:idConf }))
             .then((response) => {
                 console.log("response !", response);
@@ -23,8 +21,8 @@ const Delete = (props) => {
 
     return (
         <Modal>
-            <div className="obrisi">
-                <div className="obrisiContent">
+            <div className={classes.obrisi}>
+                <div className={classes.obrisiContent}>
                     <h3>Are you sure you want to delete {conference.name}?</h3>
                     <button onClick={handleObrisi}>Yes</button>
                     <button onClick={onClose}>No</button>

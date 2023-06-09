@@ -1,29 +1,81 @@
 .userDetailsContainer {
-    min-width: 350px;
+    min-width: 300px;
     min-height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: auto;
+}
+.mess {
+    color: red;
+}
+.pom {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    position: fixed;
+
+    transform: translate(-5%, -5%);
+
+    z-index: 200;
+
+    overflow: hidden;
+    padding: 2rem;
+}
+.prezervacija {
+    justify-content: left;
 
 }
-.konfDetails {
-    text-align: center;
-    min-width: 350px;
+.divZaKolicinu {
+    display: flex;
+    padding: 10px;
+    gap: 8px;
+}
+.userResursContainer {
+    min-width: 200px;
+    min-height: 150px;
 
-    padding: 30px;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
     background-color: #f0f0f0;
 }
 .scrollable {
     overflow-y: auto;
-    max-height: 500px; /* Postavite željenu maksimalnu visinu unutar moda */
+    max-height: 350px; /* Postavite željenu maksimalnu visinu unutar moda */
+}
+.scrollableDogadjaj {
+    list-style: none;
+    overflow-y: auto;
+    max-height: 350px; /* Postavite željenu maksimalnu visinu unutar moda */
+}
+.konfDetails {
+    display: inline-block;
+    text-align: center;
+    min-width: 310px;
+    overflow: auto;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
 }
 
-
+.resursdetails {
+    text-align: center;
+    min-width: 200px;
+    overflow: auto;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+}
 .dogKonf {
     text-align: center;
-    min-width: 350px;
+    min-width: 300px;
     border: 2px solid #ccc;
     padding: 10px;
     background-color: #f0f0f0;
@@ -59,27 +111,48 @@
     align-items: center;
     margin-right: 50px;
 }
+.zaUl {
+    display: inline-block;
+    padding: 10px;
+    border: 3px solid #ccc;
+    list-style: none;
+}
+.zaUlResursa {
+    display: inline-block;
+    padding: 10px;
+    border: 3px solid #ccc;
+    list-style: none;
+}
 .plusButton:hover {
     color: purple;
     border: 3px solid purple;
+}
+.lista {
+    list-style: none;
 }
 .formRow {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 10px;
+}
+.naslov {
+    font-size: 24px;
+    margin-top: -8rem;
+    color: #333;
+    font-weight: bold;
+
 }
 .formRowM {
+    margin-left: -5px;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding-bottom: 15px;
-    padding-top: 5px;
 }
-.formRowT {
+.formResurs {
     display: flex;
-    align-items: center;
-    gap: 1px;
-    padding-bottom: 20px;
+    gap: 20px;
+    padding: 10px;
 }
 
 .formLabel {
@@ -117,35 +190,21 @@
 .formInputIme {
     flex: 1;
     text-align: left;
-    width: 50px;
-}
-.formInputType
-{
-    flex: 1;
-    text-align: left;
-    width: 50px;
+    min-width: 100px;
+    min-height: 20px;
+    border-radius: 10px;
+
+
 }
 .buttonContainer {
     display: flex;
     justify-content: space-between;
 }
-.buttonDOgadjaji {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
 
-}
-.buttonD {
-    background-color: #555555;
-    color: white;
-    font-weight: bold;
-    width: 50px;
-    height: 25px;
-}
 
 .buttonD:hover {
     background-color: transparent;
-    color: red;
+    color: blue;
 }
 .buttonContainer button:last-child {
     margin-left: 10px; /* Prilagodite vrijednost razmaka prema svojim potrebama */
@@ -156,18 +215,29 @@
 }
 .formLabelIme {
     flex: 0.3;
-    text-align: left;
-}
-.formLabelType
-{
-    flex: 0.5;
+    margin-left: -20px;
     text-align: left;
 }
 .formselectLabel {
-    flex: 0.3;
+    flex: 0.7;
     text-align: left;
+    margin-left: -20px;
     width: 78px;
     padding: 10px;
+}
+
+.buttonD {
+    background-color: #555555;
+    color: white;
+    font-weight: bold;
+    width: 50px;
+    height: 25px;
+}
+.buttonDOgadjaji {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
 }
 .formLabelChecked {
     flex: 0.3;

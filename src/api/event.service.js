@@ -29,9 +29,9 @@ export const getEvent = (idEvent) => {
 
 
 
-export const createEvent = (dataEvent) => {
+export const createEvent = (dataConference) => {
     return instance
-        .post('conferences/events/', dataEvent, {
+        .post('conferences/events/', dataConference, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

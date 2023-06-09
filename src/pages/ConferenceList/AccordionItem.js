@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './Accordion.css';
 import QRCode from 'qrcode';
 import Accordion from "./Accordion";
@@ -8,27 +8,37 @@ import VisitorsModal from "../VisitorsModal/VisitorsModal";
 import MarksModal from "../MarksModal/MarksModal";
 import AddMark from "../MarksModal/AddMark";
 import Delete from "../Delete/Delete";
+import EditConference from "../EditConference/EditConference";
+
 const AccordionItem = (props) => {
 
     const [isActive, setIsActive] = useState(false);
     const [qrCode, setQRCode] = useState('');
     const {role} = useSelector((state) => state.users);
     const dispath = useDispatch();
-    const [showVisitors,setShowVisitors]= useState(false);
-    const [showMarks,setShowMarks]= useState(false);
-    const [rateConference,setRateConference]= useState(false);
-    const [showDeleteModal,setShowDeleteModal] = useState(false);
+    const [showVisitors, setShowVisitors] = useState(false);
+    const [showMarks, setShowMarks] = useState(false);
+    const [rateConference, setRateConference] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [conferenceForDelete, setConferenceForDelete] = useState({});
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [conferenceForEdit, setConferenceForEdit] = useState({});
 
     const handleObrisi = (conference) => {
         console.log("obrisi", conference);
         setConferenceForDelete(conference);
         setShowDeleteModal(true);
     };
+    const handleEdit = (conference) => {
+        console.log("edit", conference);
+        setConferenceForEdit(conference);
+        setShowEditModal(true);
+    };
 
-    const onClose = () =>
-    {
+
+    const onClose = () => {
         setShowDeleteModal(false);
+        setShowEditModal(false);
     };
 
     const handleOpenRateConferenceModal = () => {
@@ -89,7 +99,7 @@ const AccordionItem = (props) => {
         if (props.arg.url) {
             generateQRCode(props.arg.url);
         } else {
-            const { name, start, end, location, room } = props.arg;
+            const {name, start, end, location, room} = props.arg;
             const data = {
                 name: name,
                 start: formattedDate(start),
@@ -103,25 +113,26 @@ const AccordionItem = (props) => {
 
     return (
         <div className="accordion-item">
-            <div className={props.arg && props.arg.moderator ? "accordion-title-event" : "accordion-title"} onClick={() => setIsActive(!isActive)}>
+            <div className={props.arg && props.arg.moderator ? "accordion-title-event" : "accordion-title"}
+                 onClick={() => setIsActive(!isActive)}>
                 <div>{props.arg.name}</div>
-                {props.arg && props.arg.creator && props.arg.finished === false && role === 0 &&(
+                {props.arg && props.arg.creator && props.arg.finished === false && role === 0 && (
                     <>
                         <button className="button-edit"
-                            onClick={() => {
-                                handleSetConference(props.arg);
-                            }}
+                                onClick={() => {
+                                    handleEdit(props.arg);
+                                }}
 
                         >
                             Edit
                         </button>
                         <button className="button-delete"
-                            onClick={() => handleObrisi(props.arg)}>
+                                onClick={() => handleObrisi(props.arg)}>
                             Delete
                         </button>
                     </>
                 )}
-                {props.arg && props.arg.creator && props.arg.finished === true && role === 0 &&(
+                {props.arg && props.arg.creator && props.arg.finished === true && role === 0 && (
                     <>
                         <button className="button-delete1"
                                 onClick={() => handleObrisi(props.arg)}>
@@ -129,11 +140,13 @@ const AccordionItem = (props) => {
                         </button>
                     </>
                 )}
-                {showDeleteModal && <Delete onSave={props.onSave} onClose={onClose} conference={conferenceForDelete} idConf={conferenceForDelete.id} />}
+                {showDeleteModal && <Delete onSave={props.onSave} onClose={onClose} conference={conferenceForDelete}
+                                            idConf={conferenceForDelete.id}/>}
+                {showEditModal && <EditConference onSave={props.onSave} onClose={onClose} conference={conferenceForEdit}/>}
                 {props.arg && props.arg.creator && props.arg.finished === true && role === 1 && (
                     <>
                         <button className="button-edit" onClick={handleOpenRateConferenceModal}>Rate the conference
-                       </button>
+                        </button>
                         {rateConference && <AddMark show={rateConference} onClose={handleCloseRateConferenceModal}/>}
                     </>
                 )}
@@ -141,23 +154,23 @@ const AccordionItem = (props) => {
             </div>
             {isActive && (
                 <div className={props.arg && props.arg.moderator ? "accordion-content-event" : "accordion-content"}>
-                    <div style={{marginBottom:"15px"}}>
+                    <div style={{marginBottom: "15px"}}>
                         <label>Name: </label>
                         <span>{props.arg.name}</span>
                     </div>
-                    <div style={{marginBottom:"15px"}}>
+                    <div style={{marginBottom: "15px"}}>
                         <label>Start: </label>
                         <span>{formattedDate(props.arg.start)}</span>
                     </div>
-                    <div style={{marginBottom:"15px"}}>
+                    <div style={{marginBottom: "15px"}}>
                         <label>End: </label>
                         <span>{formattedDate(props.arg.end)}</span>
                     </div>
-                    <div style={{marginBottom:"15px"}}>
+                    {props.arg.location && (<div style={{marginBottom: "15px"}}>
                         <label>Location: </label>
-                        <span>{props.arg.location.name}</span>
-                    </div>
-                    <div style={{marginBottom:"15px"}}>
+                        <span>{props.arg.location?.name}</span>
+                    </div>)}
+                    <div style={{marginBottom: "15px"}}>
                         {props.arg && props.arg.moderator && role !== 1 ? (
                             <>
                                 <label>Moderator: </label>
@@ -172,27 +185,29 @@ const AccordionItem = (props) => {
                         ) : null}
                     </div>
 
-                    <div style={{marginBottom:"15px"}}>
-                        {props.arg && props.arg.url !== null && (
+                    {props.arg.url  && (
+
+                        <div style={{marginBottom: "15px"}}>
+                            <label>URL: </label>
+                            <a href={props.arg.url} target="_blank" rel="noopener noreferrer">
+                                {props.arg.url}
+                            </a>
+                        </div>
+                    )}
+
+                        {props.arg && props.arg.creator && (
                             <>
-                        <label>URL: </label>
-                        <a href={props.arg.url} target="_blank" rel="noopener noreferrer">
-                            {props.arg.url}
-                        </a>
-                            </>)}
-                    </div>
-                    <div style={{marginBottom:"15px"}}>
-                        { props.arg && props.arg.creator && (
-                        <>
-                            <label>Marks: </label>
-                            <button className="button" onClick={handleOpenMarksModal}>
-                            MARKS
-                            </button>
-                            {showMarks && <MarksModal arg={props.arg} show={showMarks} onClose={handleCloseMarksModal}/>}
-                        </>)
+                                <div style={{marginBottom: "15px",paddingBottom:"30px"}}>
+                                <label>Marks: </label>
+                                <button className="button" onClick={handleOpenMarksModal}>
+                                    MARKS
+                                </button>
+                                {showMarks &&
+                                    <MarksModal arg={props.arg} show={showMarks} onClose={handleCloseMarksModal}/>}
+                                </div>
+                            </>)
                         }
-                    </div>
-                    <div style={{marginBottom:"15px"}}>
+                    <div style={{marginBottom: "15px"}}>
                         {props.arg && props.arg.moderator && (
                             <>
                                 <label>Room: </label>
@@ -200,7 +215,7 @@ const AccordionItem = (props) => {
                             </>
                         )}
                     </div>
-                    <div style={{marginBottom:"15px"}}>
+                    <div style={{marginBottom: "15px"}}>
                         {props.arg && props.arg.moderator && (
                             <>
                                 <label>Event type: </label>
@@ -208,21 +223,22 @@ const AccordionItem = (props) => {
                             </>
                         )}
                     </div>
-                    <div style={{marginBottom:"15px"}}>
-                        { props.arg && props.arg.moderator && (
+                    <div style={{marginBottom: "15px"}}>
+                        {props.arg && props.arg.moderator && (
                             <>
                                 <label>Visitors: </label>
                                 <button className="button" onClick={handleOpenVisitorsModal}>
                                     VISITORS
                                 </button>
-                                {showVisitors && <VisitorsModal arg={props.arg} show={showVisitors} onClose={handleCloseVisitorsModal}/>}
+                                {showVisitors && <VisitorsModal arg={props.arg} show={showVisitors}
+                                                                onClose={handleCloseVisitorsModal}/>}
                             </>)
                         }
                     </div>
                     <div className="qr-code-container">
-                        <img src={qrCode} alt="QR Code" />
+                        <img src={qrCode} alt="QR Code"/>
                     </div>
-                    {props.arg && props.arg.creator && <Accordion events={props.arg.events} />}
+                    {props.arg && props.arg.creator && <Accordion events={props.arg.events}/>}
                 </div>
             )}
         </div>

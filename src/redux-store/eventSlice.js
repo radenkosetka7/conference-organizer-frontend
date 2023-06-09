@@ -1,13 +1,14 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import eventService from "../api/event.service.js";
 
-export const createEvent = createAsyncThunk("events/createEvent", async ({value}, {rejectWithValue}) => {
+export const createEvent = createAsyncThunk("conferences/createEvent", async ({value}, {rejectWithValue}) => {
     try {
         return await eventService.createEvent(value);
     } catch (err) {
         return rejectWithValue("Error while adding new model. Please try later.");
     }
 });
+
 
 export const getEvent = createAsyncThunk("events/getEvent", async ({value}, {rejectWithValue}) => {
     try {
@@ -56,11 +57,14 @@ export const deleteEventVisitor = createAsyncThunk("events/deleteEventVisitor", 
 
 const eventSlice = createSlice({
     name: "events",
-    initialState: [],
+    initialState: {
+        eve: [],
+    },
     reducers: [],
     extraReducers: {
         [createEvent.fulfilled]: (state, action) => {
-            return [...state, action.payload];
+            state.loading=false;
+            state.error=null;
         },
         [createEvent.pending]: (state, action) => {
             state.loading = true;
@@ -69,8 +73,8 @@ const eventSlice = createSlice({
             state.loading = false;
         },
         [updateEvent.fulfilled]: (state, action) => {
-            const data = action.payload;
-            return state.map((el) => (el.id === data.id ? {...el, ...data} : el));
+            state.loading = false;
+            state.error=null;
         },
         [updateEvent.pending]: (state, action) => {
             state.loading = true;
@@ -97,7 +101,8 @@ const eventSlice = createSlice({
             state.loading = false;
         },
         [createEventVisitor.fulfilled]: (state, action) => {
-            return [...state, action.payload];
+            state.loading=false;
+            state.error=null;
         },
         [createEventVisitor.pending]: (state, action) => {
             state.loading = true;
@@ -106,7 +111,8 @@ const eventSlice = createSlice({
             state.loading = false;
         },
         [deleteEventVisitor.fulfilled]: (state, action) => {
-            return state.filter((el) => el.id !== action.payload);
+            state.loading=false;
+            state.error=null;
         },
         [deleteEventVisitor.pending]: (state, action) => {
             state.loading = true;

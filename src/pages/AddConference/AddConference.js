@@ -1,4 +1,3 @@
-import Modal from "../Modal/Modal";
 import classes from "./AddConference.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,9 +5,9 @@ import {createReservedItem, getLocations,getEventTypes} from "../../redux-store/
 import {createEvent} from "../../redux-store/eventSlice";
 import {createConference} from "../../redux-store/conferenceSlice";
 import {getStaffUser} from "../../redux-store/userSlice";
+import Modal from "../Modal/Modal";
 
 const AddConference = (props) => {
-    const user = useSelector((state) => state.users);
     const [nizDOgadjaja, setNizDOgadjaja] = useState([]);
     const [nizResursa, setNizResursa] = useState([]);
     const [resursSacuvan, setResursSacuvan] = useState(false);
@@ -33,7 +32,6 @@ const AddConference = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [showErrorMessZaResurs, setShowErrorMessZaResurs] = useState(false);
 
-    //ostane broj lokacija trebala bih ovde citati iz baze ispocetka svaki put
     const lokacije = useSelector((state) => state.utils.locations);
     const moderatori = useSelector((state) => state.users.staffs);
     const tipovi_dogadjaja = useSelector(
@@ -88,16 +86,16 @@ const AddConference = (props) => {
         if (resursDogadjaja === "" || kolicinaResursa === "") {
             console.log("nisi dodao resurs");
             setShowErrorMessZaResurs(true);
-            setErrorMessage("Odaberite resurs!");
+            setErrorMessage("Choose resource!");
             const timer = setTimeout(() => {
                 setShowErrorMessZaResurs(false);
                 setErrorMessage("");
             }, 1000);
         } else {
             const noviResurs = {
-                kolicina: kolicinaResursa,
-                dogadjajId: "",
-                resursId: resursDogadjaja,
+                quantity: kolicinaResursa,
+                event: "",
+                resource_item: resursDogadjaja,
             };
             console.log("resurssss", noviResurs);
             setNizResursa((prevNiz) => [...prevNiz, noviResurs]);
@@ -196,6 +194,7 @@ const AddConference = (props) => {
         setUrlDogadjaja("");
         setSobaDogadjaja("");
         setModeratorDOgadjaja("");
+        tsetTipDogadjaja("");
         setShowDogadjaje(false);
     };
 
@@ -214,22 +213,22 @@ const AddConference = (props) => {
         ) {
             console.log("niste odabrali sve");
             setShowErrorMessZaResurs(true);
-            setErrorMessage("Popunite sva polja!");
+            setErrorMessage("Fill in all fields!");
             const timer = setTimeout(() => {
                 setShowErrorMessZaResurs(false);
                 setErrorMessage("");
             }, 1000);
         } else {
             const noviDogadjaj = {
-                startTime: startTimeDogadjaja,
-                endTime: endTimeDogadjaja,
-                naziv: imeDOgadjaja,
+                start: startTimeDogadjaja,
+                end: endTimeDogadjaja,
+                name: imeDOgadjaja,
                 url: urlDogadjaja,
-                konferencijaId: "",
-                tipDogadjaja: tipDogadjaja,
-                lokacijaId: lokacijaKonferencije,
-                sobaId: sobaDogadjaja,
-                moderator_Id: moderatorDOgadjaja,
+                conference: "",
+                event_type: tipDogadjaja,
+                location: lokacijaKonferencije,
+                room: sobaDogadjaja,
+                moderator: moderatorDOgadjaja,
                 resursi: nizResursa,
             };
             if (urlDogadjaja === "") {
@@ -250,6 +249,7 @@ const AddConference = (props) => {
             setSobaDogadjaja("");
             setModeratorDOgadjaja("");
             setDogadjajSacuvan(true);
+            tsetTipDogadjaja("");
             setShowDogadjaje(false);
         }
     };
@@ -263,19 +263,18 @@ const AddConference = (props) => {
         ) {
             console.log("nistaa");
             setShowErrorMessZaResurs(true);
-            setErrorMessage("Niste popunili sva polja!");
+            setErrorMessage("Fill in all fields!");
             const timer = setTimeout(() => {
                 setShowErrorMessZaResurs(false);
                 setErrorMessage("");
             }, 1000);
         } else {
             const konferencijaRequest = {
-                naziv: imeKonferencije,
-                startTime: startTimeKonferencije,
-                endTime: endTimeKonferencija,
+                name: imeKonferencije,
+                start: startTimeKonferencije,
+                end: endTimeKonferencija,
                 url: urlKonferencije,
-                organizatorId: user.user.id,
-                lokacijaId: lokacijaKonferencije,
+                location: lokacijaKonferencije,
             };
             console.log("nizDOgadjaja", nizDOgadjaja);
             const noviNiz = nizDOgadjaja.map(
@@ -284,32 +283,31 @@ const AddConference = (props) => {
             console.log("noviNiz", noviNiz);
             const conf = await dispatch(
                 createConference({
-                    konferencijaRequest: konferencijaRequest,
+                    value: konferencijaRequest,
                 })
             );
             console.log("id konferencije", conf.payload.id);
             for (let dogadjaj of noviNiz) {
-                dogadjaj.konferencijaId = conf.payload.id;
+                dogadjaj.conference = conf.payload.id;
             }
-
             for (let i = 0; i < noviNiz.length; i++) {
                 const dogadjajRequest = noviNiz[i];
                 console.log("dogadjaj jedan po jedan", dogadjajRequest);
                 const responseDog = await dispatch(
                     createEvent({
-                        dogadjajRequest: dogadjajRequest,
+                        value: dogadjajRequest,
                     })
                 );
                 console.log("dogadjaj ID", responseDog.payload.id);
                 for (let resurs of nizDOgadjaja[i].resursi) {
                     console.log("ovo citaaaj", responseDog);
-                    resurs.dogadjajId = responseDog.payload.id;
+                    resurs.event = responseDog.payload.id;
                 }
                 for (let resurs of nizDOgadjaja[i].resursi) {
                     console.log("resurs za dispetch", resurs);
                     const resursODG = await dispatch(
                         createReservedItem({
-                            resurs: resurs,
+                            value: resurs,
                         })
                     );
                     console.log("resurs response", resursODG);
@@ -318,6 +316,7 @@ const AddConference = (props) => {
             onClose();
             props.onSave();
         }
+
     };
 
     return (
@@ -333,7 +332,7 @@ const AddConference = (props) => {
                     <div className={classes.formRow}>
                         <div className={classes.formLabelIme}>
                             <label>
-                                <strong>Name:</strong>
+                                <strong style={{fontSize:"16px"}}>Name:</strong>
                             </label>
                         </div>
                         <div className={classes.formInputIme}>
@@ -350,7 +349,7 @@ const AddConference = (props) => {
                     <div className={classes.formRow}>
                         <div className={classes.formLabelIme}>
                             <label>
-                                <strong>Start:</strong>
+                                <strong style={{fontSize:"16px"}}>Start:</strong>
                             </label>
                         </div>
                         <div className={classes.formInputIme}>
@@ -366,7 +365,7 @@ const AddConference = (props) => {
                     <div className={classes.formRow}>
                         <div className={classes.formLabelIme}>
                             <label>
-                                <strong>End:</strong>
+                                <strong style={{fontSize:"16px"}}>End:</strong>
                             </label>
                         </div>
                         <div className={classes.formInputIme}>
@@ -384,7 +383,7 @@ const AddConference = (props) => {
                         <div className={classes.formRow}>
                             <div className={classes.formLabelChecked}>
                                 <label>
-                                    <strong>Url</strong>
+                                    <strong style={{fontSize:"16px"}}>Url</strong>
                                 </label>
                             </div>
                             <div className={classes.formChecked}>
@@ -402,7 +401,7 @@ const AddConference = (props) => {
                         <div className={classes.formRow}>
                             <div className={classes.formLabelIme}>
                                 <label>
-                                    <strong>URL:</strong>
+                                    <strong style={{fontSize:"16px"}}>URL:</strong>
                                 </label>
                             </div>
                             <div className={classes.formInputIme}>
@@ -420,7 +419,7 @@ const AddConference = (props) => {
                         <div className={classes.formRow}>
                             <div className={classes.formLabelChecked}>
                                 <label>
-                                    <strong>Location:</strong>
+                                    <strong style={{fontSize:"16px"}}>Location:</strong>
                                 </label>
                             </div>
                             <div className={classes.formChecked}>
@@ -438,7 +437,7 @@ const AddConference = (props) => {
                         <div className={classes.formRow}>
                             <div className={classes.formLabelChecked}>
                                 <label>
-                                    <strong>Location:</strong>
+                                    <strong style={{fontSize:"16px"}}>Location:</strong>
                                 </label>
                             </div>
                             <div className={classes.formInputIme}>
@@ -451,7 +450,7 @@ const AddConference = (props) => {
                                     <option value="">Choose location</option>
                                     {lokacije.map((lokacija) => (
                                         <option key={lokacija.id} value={lokacija.id}>
-                                            {lokacija.adresa}
+                                            {lokacija.name}
                                         </option>
                                     ))}
                                 </select>
@@ -471,7 +470,7 @@ const AddConference = (props) => {
                             <div className={classes.formRow}>
                                 <div className={classes.formLabelIme}>
                                     <label>
-                                        <strong>Name:</strong>
+                                        <strong style={{fontSize:"16px"}}>Name:</strong>
                                     </label>
                                 </div>
                                 <div className={classes.formInputIme}>
@@ -488,7 +487,7 @@ const AddConference = (props) => {
                             <div className={classes.formRow}>
                                 <div className={classes.formLabelIme}>
                                     <label>
-                                        <strong>Start:</strong>
+                                        <strong style={{fontSize:"16px"}}>Start:</strong>
                                     </label>
                                 </div>
                                 <div className={classes.formInputIme}>
@@ -504,7 +503,7 @@ const AddConference = (props) => {
                             <div className={classes.formRow}>
                                 <div className={classes.formLabelIme}>
                                     <label>
-                                        <strong>End:</strong>
+                                        <strong style={{fontSize:"16px"}}>End:</strong>
                                     </label>
                                 </div>
                                 <div className={classes.formInputIme}>
@@ -521,7 +520,7 @@ const AddConference = (props) => {
                                 <div className={classes.formRow}>
                                     <div className={classes.formLabelIme}>
                                         <label>
-                                            <strong>URL:</strong>
+                                            <strong style={{fontSize:"16px"}}>URL:</strong>
                                         </label>
                                     </div>
                                     <div className={classes.formInputIme}>
@@ -540,7 +539,7 @@ const AddConference = (props) => {
                                 <div className={classes.formRow}>
                                     <div className={classes.formselectLabel}>
                                         <label>
-                                            <strong>Room:</strong>
+                                            <strong style={{fontSize:"16px"}}>Room:</strong>
                                         </label>
                                     </div>
                                     <div className={classes.formSoba}>
@@ -550,10 +549,10 @@ const AddConference = (props) => {
                                             id="soba"
                                             name="soba"
                                         >
-                                            <option value="">Odaberi sobu</option>
-                                            {selectedLocation?.sobas?.map((soba) => (
+                                            <option value="">Choose room</option>
+                                            {selectedLocation?.rooms?.map((soba) => (
                                                 <option key={soba.id} value={soba.id}>
-                                                    {soba.naziv}
+                                                    {soba.name}
                                                 </option>
                                             ))}
                                         </select>
@@ -561,10 +560,10 @@ const AddConference = (props) => {
                                 </div>
                             )}
 
-                            <div className={classes.formRow}>
-                                <div className={classes.formselectLabel}>
+                            <div className={classes.formRowM}>
+                                <div className={classes.formLabelIme}>
                                     <label>
-                                        <strong>Moderator:</strong>
+                                        <strong style={{fontSize:"16px"}}>Moderator:</strong>
                                     </label>
                                 </div>
                                 <div className={classes.formInputIme}>
@@ -577,20 +576,20 @@ const AddConference = (props) => {
                                         <option value="">Choose moderator</option>
                                         {moderatori?.map((moderator) => (
                                             <option key={moderator.id} value={moderator.id}>
-                                                {moderator.naziv}
+                                                {moderator.first_name} {moderator.last_name}
                                             </option>
                                         ))}
                                     </select>
                                 </div>
                             </div>
 
-                            <div className={classes.formRow}>
-                                <div className={classes.formselectLabel}>
+                            <div className={classes.formRowT}>
+                                <div className={classes.formLabelType}>
                                     <label>
-                                        <strong>Event type:</strong>
+                                        <strong style={{fontSize:"16px"}}>Event type:</strong>
                                     </label>
                                 </div>
-                                <div className={classes.formInputIme}>
+                                <div className={classes.formInputType}>
                                     <select
                                         value={tipDogadjaja}
                                         onChange={handleTipDogadjajaCHnaged}
@@ -600,7 +599,7 @@ const AddConference = (props) => {
                                         <option value="">Choose event type</option>
                                         {tipovi_dogadjaja?.map((tip) => (
                                             <option key={tip.id} value={tip.id}>
-                                                {tip.naziv}
+                                                {tip.name}
                                             </option>
                                         ))}
                                     </select>
@@ -608,7 +607,7 @@ const AddConference = (props) => {
                             </div>
                             {lokacijaKonfChecked && (
                                 <div className={classes.resursiHeader}>
-                                    <span>Resursi </span>
+                                    <span>Resources </span>
                                     <button
                                         className={classes.plusButton}
                                         onClick={hadnleResursi}
@@ -622,7 +621,7 @@ const AddConference = (props) => {
                                     <div className={classes.formRow}>
                                         <div className={classes.formLabelChecked}>
                                             <label>
-                                                <strong>Resource:</strong>
+                                                <strong style={{fontSize:"16px"}}>Resource:</strong>
                                             </label>
                                         </div>
                                         <div className={classes.formResurs}>
@@ -634,10 +633,9 @@ const AddConference = (props) => {
                                                 name="resurs"
                                             >
                                                 <option value="">Choose resource</option>
-                                                {selectedLocation?.resurs?.map((r) => (
+                                                {selectedLocation?.resource_items?.map((r) => (
                                                     <option key={r.id} value={r.id}>
-                                                        {r.naziv}
-                                                        {r.id}
+                                                        {r.name}
                                                     </option>
                                                 ))}
                                             </select>
@@ -649,14 +647,14 @@ const AddConference = (props) => {
                                                 name="resursKolicina"
                                             >
                                                 <option value="">Quantity</option>
-                                                {selectedLocation?.resurs?.find(
+                                                {selectedLocation?.resource_items?.find(
                                                         (r) => r.id === resursDogadjaja
                                                     ) &&
                                                     Array.from(
                                                         {
-                                                            length: selectedLocation.resurs.find(
+                                                            length: selectedLocation.resource_items.find(
                                                                 (r) => r.id === resursDogadjaja
-                                                            ).kolicina,
+                                                            ).number,
                                                         },
                                                         (_, index) => index + 1
                                                     ).map((num) => (
@@ -668,9 +666,9 @@ const AddConference = (props) => {
                                         </div>
                                         <button
                                             onClick={handleSpremiResurs}
-                                            className={classes.saveResurs}
+                                            className={classes.buttonD}
                                         >
-                                            Sačuvaj
+                                            Save
                                         </button>
                                     </div>
                                 </div>
@@ -696,8 +694,8 @@ const AddConference = (props) => {
                     </div>
                 )}
                 <div className={classes.buttonContainer}>
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={onClose}>Cancel</button>
+                    <button className={classes.buttonD} onClick={handleSave}>Save</button>
+                    <button className={classes.buttonD} onClick={onClose}>Cancel</button>
                 </div>
             </div>
         </Modal>

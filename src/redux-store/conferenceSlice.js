@@ -96,7 +96,8 @@ const conferenceSlice = createSlice({
             state.loading = false;
         },
         [createConference.fulfilled]: (state, action) => {
-            return [...state, action.payload];
+            state.loading=false;
+            state.error=null;
         },
         [createConference.pending]: (state, action) => {
             state.loading = true;
@@ -105,8 +106,8 @@ const conferenceSlice = createSlice({
             state.loading = false;
         },
         [updateConference.fulfilled]: (state, action) => {
-            const data = action.payload;
-            return state.map((el) => (el.id === data.id ? {...el, ...data} : el));
+            state.loading=false;
+            state.error=null;
         },
         [updateConference.pending]: (state, action) => {
             state.loading = true;

@@ -1,15 +1,15 @@
 import { Fragment, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-import './Modal.css'
+import classes from './Modal.module.css';
 const Backdrop = (props) => {
-    return <div className="backdrop" />;
+    return <div className={classes.backdrop} />;
 };
 
 const ModalOverlay = (props) => {
     const { resurs } = props;
     const modalClass =
-        resurs === undefined ? "modal" : "modalZaRezervaciju";
+        resurs === undefined ? classes.modal : classes.modalZaRezervaciju;
     useEffect(() => {
     }, [modalClass, resurs]);
 
@@ -20,7 +20,7 @@ const ModalOverlay = (props) => {
 
     return (
         <div className={modalClass} onClick={handleClick}>
-            <div className="content">{props.children}</div>
+            <div className={classes.content}>{props.children}</div>
         </div>
     );
 };

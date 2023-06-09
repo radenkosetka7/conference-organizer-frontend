@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
 import Accordion from "./pages/ConferenceList/Accordion";
 import UserDetails from "./pages/UserDetails/UserDetails";
-import EditConference from "./pages/EditModal/EditConference";
+import EditConference from "./pages/EditConference/EditConference";
 function App() {
 
   return (

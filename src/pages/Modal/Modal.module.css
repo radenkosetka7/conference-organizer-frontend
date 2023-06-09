@@ -10,7 +10,8 @@
 
 .modal {
     position: fixed;
-    top: 25rem;
+
+   top: 20rem;
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 350px;
@@ -55,4 +56,5 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
