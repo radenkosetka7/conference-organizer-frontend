@@ -383,7 +383,7 @@ const AddConference = (props) => {
                         <div className={classes.formRow}>
                             <div className={classes.formLabelChecked}>
                                 <label>
-                                    <strong style={{fontSize:"16px"}}>Url</strong>
+                                    <strong style={{fontSize:"16px"}}>Url:</strong>
                                 </label>
                             </div>
                             <div className={classes.formChecked}>

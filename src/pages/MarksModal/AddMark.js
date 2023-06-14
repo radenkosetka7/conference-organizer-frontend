@@ -1,23 +1,31 @@
 import { Button, Modal, Input, Form, Select } from 'antd';
+import {createRating} from "../../redux-store/utilSlice";
+import {useDispatch} from "react-redux";
 
 const { TextArea } = Input;
 const { Option } = Select;
-const AddMark = ({show,onClose}) => {
-    const title1=`Rate`; // ovdje treba naziv konferencije dodati
+const AddMark = ({show,onClose,arg,onSave}) => {
+    const title1=`Rate ${arg.name}`;
+    const dispatch = useDispatch();
     const handleClick = (e) => {
         e.stopPropagation();
     };
 
     const handleFormSubmit = (values) => {
-        // Provjerite valjanost unesenih podataka
-        // Ako su podaci valjani, zatvorite modal
+        const markRequest = {
+            stars: values.stars,
+            comment: values.comment,
+            conference: arg.id,
+        };
+        dispatch(createRating({value:markRequest}));
+        onSave();
         onClose();
     };
 
     return (
         <>
             <Modal maskClosable={false} title={title1} footer={[
-            ]} open={show} onCancel={onClose} bodyStyle={{ maxHeight: '300px', overflowY: 'auto' }}>
+            ]} open={show} onCancel={onClose}  bodyStyle={{ maxHeight: '300px', overflowY: 'auto' }}>
                 <Form
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 14 }}
@@ -35,7 +43,7 @@ const AddMark = ({show,onClose}) => {
                             <Option value="2">2</Option>
                             <Option value="3">3</Option>
                             <Option value="4">4</Option>
-                            <Option value="4">5</Option>
+                            <Option value="5">5</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item label="Comment" name="comment" rules={[

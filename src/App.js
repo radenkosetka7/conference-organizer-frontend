@@ -8,6 +8,7 @@ import Register from "./pages/Register/Register";
 import Accordion from "./pages/ConferenceList/Accordion";
 import UserDetails from "./pages/UserDetails/UserDetails";
 import EditConference from "./pages/EditConference/EditConference";
+import ModeratorAccordion from "./pages/ModeratorConferences/ModeratorAccordion";
 function App() {
 
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/allConferences" element={<Accordion/>}/>
               <Route path="/myProfile" element={<UserDetails/>}/>
               <Route path="/editConference" element={<EditConference/>}/>
+              <Route path="/moderatorConferences" element={<ModeratorAccordion/>}/>
               <Route path="*" element={<NotFound/>}/>
 
           </Routes>

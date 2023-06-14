@@ -61,15 +61,64 @@ export const createConference = (dataConference) => {
         .then((result) => result.data);
 };
 
-export const getAllModeratorConferences = () => {
+export const getAllModeratorConferences = (search,start,end,finished) => {
+
+    let urlFetch = 'conferences/conferences/moderator/';
+    let params= [];
+
+    if(search)
+    {
+        params.push(`search=${encodeURIComponent(search)}`);
+    }
+    if(start)
+    {
+        params.push(`start_date=${encodeURIComponent(start)}`);
+    }
+    if(end)
+    {
+        params.push(`end_date=${encodeURIComponent(end)}`);
+    }
+    if(finished != null)
+    {
+        params.push(`finished=${encodeURIComponent(finished)}`);
+    }
+    if(params.length>0)
+    {
+        urlFetch += `?${params.join('&')}`;
+    }
+
     return instance
-        .get('conferences/conferences/moderator/')
+        .get(urlFetch)
         .then((result)=>result.data)
 };
 
-export const getAllOrganizerConferences = () => {
+export const getAllOrganizerConferences = (search,start,end,finished) => {
+    let urlFetch = 'conferences/conferences/organizer/';
+    let params= [];
+
+    if(search)
+    {
+        params.push(`search=${encodeURIComponent(search)}`);
+    }
+    if(start)
+    {
+        params.push(`start_date=${encodeURIComponent(start)}`);
+    }
+    if(end)
+    {
+        params.push(`end_date=${encodeURIComponent(end)}`);
+    }
+    if(finished != null)
+    {
+        params.push(`finished=${encodeURIComponent(finished)}`);
+    }
+    if(params.length>0)
+    {
+        urlFetch += `?${params.join('&')}`;
+    }
+
     return instance
-        .get('conferences/conferences/organizer/')
+        .get(urlFetch)
         .then((result)=>result.data)
 };
 

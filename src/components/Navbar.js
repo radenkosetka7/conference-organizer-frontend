@@ -84,10 +84,31 @@ export default function Navbar() {
                     </Link>
                 )}
 
-                {authenticated && (
+                {authenticated && role === 0 && (
                     <Link
                         className={`home underline ${activeLink === 'myConferences' ? 'active' : ''}`}
                         to="/allConferences"
+                        onClick={() => handleLinkClick('myConferences')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        My conferences
+                    </Link>
+                )}
+
+                {authenticated && role === 1 && (
+                    <Link
+                        className={`home underline ${activeLink === 'myConferences' ? 'active' : ''}`}
+                        to="/moderatorConferences"
+                        onClick={() => handleLinkClick('myConferences')}
+                        style={{ color: "white", textDecoration: "none" }}
+                    >
+                        My conferences
+                    </Link>
+                )}
+                {authenticated && role === 2 && (
+                    <Link
+                        className={`home underline ${activeLink === 'myConferences' ? 'active' : ''}`}
+                        to="/userConferences"
                         onClick={() => handleLinkClick('myConferences')}
                         style={{ color: "white", textDecoration: "none" }}
                     >

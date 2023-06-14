@@ -149,10 +149,8 @@ const EditConference = (props) => {
             })
         )
             .then((response) => {
-                console.log("rezultat rezervacije", response);
                 setShowMessRez(true);
                 setMessageRez("Uspješno ste sačuvali izmjene!");
-                console.log(" setShowMess", showMess);
                 //treba vidjeti payload.status==200
 
                 const timer = setTimeout(() => {

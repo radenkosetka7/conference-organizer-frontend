@@ -166,8 +166,8 @@ h1 {
 }
 .button-edit
 {
-    margin-left: 580px;
-    color: white;
+    margin-left: 520px;
+    color: #488ccc;
 }
 .button-delete{
     color: red;
@@ -194,12 +194,4 @@ h1 {
     margin-left: 630px;
     position: absolute;
     color: red;
-}
-.my-button {
-    background-color: transparent; /* Postavite pozadinsku boju na providnu */
-    border: none; /* Uklonite okvir */
-    color: black; /* Postavite boju teksta na crnu */
-    font-size: 16px; /* Prilagodite veličinu fonta prema potrebi */
-    padding: 0; /* Uklonite prostor unutar dugmeta */
-    cursor: pointer; /* Promenite kursor prilikom hovera preko dugmeta */
 }

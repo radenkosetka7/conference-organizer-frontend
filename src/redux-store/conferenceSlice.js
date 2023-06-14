@@ -45,17 +45,20 @@ export const updateConference = createAsyncThunk("conferences/updateConference",
     }
 });
 
-export const getConferenceModerator = createAsyncThunk("conferences/getConferencesModerator", async ({rejectWithValue}) => {
+export const getConferenceModerator = createAsyncThunk("conferences/getConferencesModerator", async (params,{rejectWithValue}) => {
     try {
-        return await conferenceService.getAllModeratorConferences();
+        const { search, start, end, finished } = params;
+        return await conferenceService.getAllModeratorConferences(search,start,end,finished);
     } catch (err) {
         return rejectWithValue("There is some problem with getting data. Please try later.");
     }
 });
 
-export const getConferenceOrganizer = createAsyncThunk("conferences/getConferencesOrganizer", async ({rejectWithValue}) => {
+export const getConferenceOrganizer = createAsyncThunk("conferences/getConferencesOrganizer", async (params,{rejectWithValue}) => {
     try {
-        return await conferenceService.getAllOrganizerConferences();
+        const { search, start, end, finished } = params;
+
+        return await conferenceService.getAllOrganizerConferences(search,start,end,finished);
     } catch (err) {
         return rejectWithValue("There is some problem with getting data. Please try later.");
     }
@@ -79,6 +82,8 @@ const conferenceSlice = createSlice({
     name: "conferences",
     initialState: {
         confs: [],
+        userConfs: [],
+        moderatorConfs: [],
         selectedConf: null,
     },
     reducers: {
@@ -137,7 +142,8 @@ const conferenceSlice = createSlice({
             state.loading = false;
         },
         [getConferenceModerator.fulfilled]: (state, action) => {
-            return action.payload;
+            state.moderatorConfs = action.payload;
+
         },
         [getConferenceModerator.pending]: (state, action) => {
             state.loading = true;
@@ -146,7 +152,7 @@ const conferenceSlice = createSlice({
             state.loading = false;
         },
         [getConferencesVisitor.fulfilled]: (state, action) => {
-            return action.payload;
+            state.userConfs = action.payload;
         },
         [getConferencesVisitor.pending]: (state, action) => {
             state.loading = true;
