@@ -83,7 +83,7 @@ const eventSlice = createSlice({
             state.loading = false;
         },
         [deleteEvent.fulfilled]: (state, action) => {
-            return state.filter((el) => el.id !== action.payload);
+            state.loading=false;
         },
         [deleteEvent.pending]: (state, action) => {
             state.loading = true;
@@ -92,7 +92,7 @@ const eventSlice = createSlice({
             state.loading = false;
         },
         [getEvent.fulfilled]: (state, action) => {
-            return state.filter((el) => el.id === action.payload);
+            state.loading=false;
         },
         [getEvent.pending]: (state, action) => {
             state.loading = true;

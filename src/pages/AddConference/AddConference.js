@@ -132,10 +132,16 @@ const AddConference = (props) => {
     };
 
     const handleEndTimeChanged = (e) => {
-        setEndTimeKonferencija(e.target.value);
+        const selectedEndTime = e.target.value;
+        if (selectedEndTime >= startTimeKonferencije) {
+            setEndTimeKonferencija(selectedEndTime);
+        }
     };
     const handleEndTimeDogadjaja = (e) => {
-        setEndTimeDogadjaja(e.target.value);
+        const selectedEndDate = e.target.value;
+        if (selectedEndDate >= startTimeDogadjaja) {
+            setEndTimeDogadjaja(e.target.value);
+        }
     };
 
     const handleUrlChanged = (e) => {
@@ -375,6 +381,7 @@ const AddConference = (props) => {
                                 type="datetime-local"
                                 id="endTime"
                                 name="endTime"
+                                min={startTimeKonferencije}
                             />
                         </div>
                     </div>
@@ -497,6 +504,8 @@ const AddConference = (props) => {
                                         type="datetime-local"
                                         id="startTimeD"
                                         name="startTimeD"
+                                        min={startTimeKonferencije}
+                                        max={endTimeKonferencija}
                                     />
                                 </div>
                             </div>
@@ -513,6 +522,8 @@ const AddConference = (props) => {
                                         type="datetime-local"
                                         id="endTimeD"
                                         name="endTimeD"
+                                        min={startTimeDogadjaja}
+                                        max={endTimeKonferencija}
                                     />
                                 </div>
                             </div>

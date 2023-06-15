@@ -78,6 +78,7 @@ export default function Navbar() {
                     <Link
                         className={`home underline ${activeLink === 'conferences' ? 'active' : ''}`}
                         style={{ color: "white", textDecoration: "none" }}
+                        to="/allConferences"
                         onClick={() => handleLinkClick('conferences')}
                     >
                         Conferences
@@ -108,7 +109,7 @@ export default function Navbar() {
                 {authenticated && role === 2 && (
                     <Link
                         className={`home underline ${activeLink === 'myConferences' ? 'active' : ''}`}
-                        to="/userConferences"
+                        to="/visitorConferences"
                         onClick={() => handleLinkClick('myConferences')}
                         style={{ color: "white", textDecoration: "none" }}
                     >

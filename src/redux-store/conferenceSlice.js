@@ -69,9 +69,11 @@ const setConference = (state, action) =>
     state.selectedConf = action.payload;
 }
 
-export const getConferencesVisitor = createAsyncThunk("conferences/getConferencesVisitor", async ({rejectWithValue}) => {
+export const getConferencesVisitor = createAsyncThunk("conferences/getConferencesVisitor", async (params,{rejectWithValue}) => {
     try {
-        return await conferenceService.getAllVisitorConferences();
+        const { search, start, end, finished } = params;
+
+        return await conferenceService.getAllVisitorConferences(search,start,end,finished);
     } catch (err) {
         return rejectWithValue("There is some problem with getting data. Please try later.");
     }

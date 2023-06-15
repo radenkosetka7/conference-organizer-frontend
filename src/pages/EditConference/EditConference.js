@@ -61,6 +61,11 @@ const EditConference = (props) => {
     },[]);
     useEffect(() => {
         console.log("expanded dogadjaj ", expandedDogadjajId);
+        const formattedStartTime = startTimeKonferencije.slice(0, 16); // Izrežemo vremensku zonu
+        setStartTimeKonferencije(formattedStartTime);
+        const formattedEndtTime = endTimeKonferencija.slice(0, 16); // Izrežemo vremensku zonu
+        setEndTimeKonferencija(formattedEndtTime);
+
         if (expandedDogadjajId !== null) {
             const dogadjaj = events.find((dog) => dog.id === expandedDogadjajId);
             console.log("dogadjaj", dogadjaj);
@@ -69,8 +74,11 @@ const EditConference = (props) => {
             const moderator1 = parseInt(dogadjaj.moderator.id, 10);
             setModeratorDOgadjaja(moderator1);
             setImeDogadjaja(dogadjaj.name);
-            setStartDogadjaja(dogadjaj.start);
-            setKrajDogadjaja(dogadjaj.end);
+            const formattedDogadjajStart = dogadjaj.start.slice(0, 16); // Izrežemo vremensku zonu
+            setStartDogadjaja(formattedDogadjajStart);
+            //setKrajDogadjaja(dogadjaj.endTime);
+            const formattedDogadjajEnd = dogadjaj.end.slice(0, 16); // Izrežemo vremensku zonu
+            setKrajDogadjaja(formattedDogadjajEnd);
             setUrlDOgadjaja(dogadjaj.url);
         }
     }, [lokacije, moderatori, tipovi_dogadjaja, expandedDogadjajId, events]);

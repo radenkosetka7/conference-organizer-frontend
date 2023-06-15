@@ -3,7 +3,7 @@
     min-height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+   padding-top: 50px;
     align-items: center;
 
 }
@@ -128,6 +128,7 @@
 .buttonContainer {
     display: flex;
     justify-content: space-between;
+    padding-top: 80px;
 }
 .buttonDOgadjaji {
     display: flex;

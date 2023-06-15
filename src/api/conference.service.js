@@ -122,9 +122,34 @@ export const getAllOrganizerConferences = (search,start,end,finished) => {
         .then((result)=>result.data)
 };
 
-export const getAllVisitorConferences = () => {
+export const getAllVisitorConferences = (search,start,end,finished) => {
+
+    let urlFetch = 'conferences/user_events/';
+    let params= [];
+
+    if(search)
+    {
+        params.push(`search=${encodeURIComponent(search)}`);
+    }
+    if(start)
+    {
+        params.push(`start_date=${encodeURIComponent(start)}`);
+    }
+    if(end)
+    {
+        params.push(`end_date=${encodeURIComponent(end)}`);
+    }
+    if(finished != null)
+    {
+        params.push(`finished=${encodeURIComponent(finished)}`);
+    }
+    if(params.length>0)
+    {
+        urlFetch += `?${params.join('&')}`;
+    }
+
     return instance
-        .get('conferences/user-events/')
+        .get(urlFetch)
         .then((result)=>result.data)
 };
 const Conferences = {
