@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Accordion.css';
 import QRCode from 'qrcode';
 import Accordion from "./Accordion";
@@ -9,12 +9,15 @@ import MarksModal from "../MarksModal/MarksModal";
 import AddMark from "../MarksModal/AddMark";
 import Delete from "../Delete/Delete";
 import EditConference from "../EditConference/EditConference";
+import {createEventVisitor, deleteEventVisitor, getEventVisitor} from "../../redux-store/eventSlice";
+import {eventRegister, eventUnregister} from "../../constant/constants";
 
 const AccordionItem = (props) => {
 
     const [isActive, setIsActive] = useState(false);
     const [qrCode, setQRCode] = useState('');
     const {role} = useSelector((state) => state.users);
+    const {user} = useSelector((state) => state.users);
     const dispath = useDispatch();
     const [showVisitors, setShowVisitors] = useState(false);
     const [showMarks, setShowMarks] = useState(false);
@@ -23,6 +26,7 @@ const AccordionItem = (props) => {
     const [conferenceForDelete, setConferenceForDelete] = useState({});
     const [showEditModal, setShowEditModal] = useState(false);
     const [conferenceForEdit, setConferenceForEdit] = useState({});
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleObrisi = (conference) => {
         console.log("obrisi", conference);
@@ -87,6 +91,45 @@ const AccordionItem = (props) => {
 
     const [activeLink, setActiveLink] = useState('');
 
+    const handleLeftEvent = (arg) => {
+
+        setSuccessMessage(eventUnregister);
+        setTimeout(() => {
+
+            setSuccessMessage('');
+            const date = new Date();
+            if (formattedDate(date) < formattedDate(arg.start)) {
+                dispath(getEventVisitor({event: arg.id, visitor: user.id})).then((response) => {
+                    dispath(deleteEventVisitor({id: response.payload[0].id})).then(response => {
+                        props.onSave();
+                    }).catch((error) => {
+                    });
+                }).catch((error) => {
+                });
+            }
+
+        }, 2000);
+
+
+    }
+    const handleAttendEvent = (arg) => {
+        const visitorRequest = {
+            event: arg.id,
+            visitor: user.id
+        };
+        setSuccessMessage(eventRegister);
+
+
+
+        setTimeout(() => {
+            setSuccessMessage('');
+            dispath(createEventVisitor({value: visitorRequest}))
+
+            props.onSave();
+        }, 2000);
+    }
+
+
     const handleLinkClick = (link) => {
         setActiveLink(link);
     }
@@ -139,9 +182,38 @@ const AccordionItem = (props) => {
                         </button>
                     </>
                 )}
+                {successMessage.length>0 && (
+                    <p style={props.arg.event_visitors.some((v) => v.visitor.id === user.id) === true?{color:"red"}:{color:"blue"}}>{successMessage}</p>
+                )}
+                {
+                    props.arg && props.arg.event_type && props.arg.finished === 0 && formattedDate(new Date()) < formattedDate(props.arg.start) && props.arg.event_visitors.some((v) => v.visitor.id === user.id) === false && role === 2 && (
+                        <button className="button-edit1"
+                                onClick={() => {
+                                    handleAttendEvent(props.arg);
+                                }}
+
+                        >
+                            Attend
+                        </button>
+                    )
+                }
+
+                {
+                    props.arg && props.arg.event_type && props.arg.finished === 0 && formattedDate(new Date()) < formattedDate(props.arg.start) && props.arg.event_visitors.some((v) => v.visitor.id === user.id) === true && role === 2 && (
+                        <button className="button-edit1"
+                                onClick={() => {
+                                    handleLeftEvent(props.arg);
+                                }}
+
+                        >
+                            Left
+                        </button>
+                    )
+                }
                 {showDeleteModal && <Delete onSave={props.onSave} onClose={onClose} conference={conferenceForDelete}
                                             idConf={conferenceForDelete.id}/>}
-                {showEditModal && <EditConference onSave={props.onSave} onClose={onClose} conference={conferenceForEdit}/>}
+                {showEditModal &&
+                    <EditConference onSave={props.onSave} onClose={onClose} conference={conferenceForEdit}/>}
                 {props.arg && props.arg.creator && props.arg.finished === true && role === 1 && (
                     <>
                         <button className="button-edit" onClick={handleOpenRateConferenceModal}>Rate the conference
@@ -186,7 +258,7 @@ const AccordionItem = (props) => {
                         ) : null}
                     </div>
 
-                    {props.arg.url  && (
+                    {props.arg.url && (
 
                         <div style={{marginBottom: "15px"}}>
                             <label>URL: </label>
@@ -196,18 +268,18 @@ const AccordionItem = (props) => {
                         </div>
                     )}
 
-                        {props.arg && props.arg.creator && (
-                            <>
-                                <div style={{marginBottom: "15px",paddingBottom:"30px"}}>
+                    {props.arg && props.arg.creator && (
+                        <>
+                            <div style={{marginBottom: "15px", paddingBottom: "30px"}}>
                                 <label>Marks: </label>
                                 <button className="button" onClick={handleOpenMarksModal}>
                                     MARKS
                                 </button>
                                 {showMarks &&
                                     <MarksModal arg={props.arg} show={showMarks} onClose={handleCloseMarksModal}/>}
-                                </div>
-                            </>)
-                        }
+                            </div>
+                        </>)
+                    }
                     <div style={{marginBottom: "15px"}}>
                         {props.arg && props.arg.moderator && (
                             <>

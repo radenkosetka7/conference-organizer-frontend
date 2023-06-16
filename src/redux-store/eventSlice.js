@@ -55,6 +55,15 @@ export const deleteEventVisitor = createAsyncThunk("events/deleteEventVisitor", 
     }
 });
 
+export const getEventVisitor = createAsyncThunk("events/getEventVisitor", async (params, {rejectWithValue}) => {
+    try {
+        const { event, visitor } = params;
+        return await eventService.getEventVisitor(event,visitor);
+    } catch (err) {
+        return rejectWithValue("Error while deleting model. Please try later.");
+    }
+});
+
 const eventSlice = createSlice({
     name: "events",
     initialState: {
@@ -118,6 +127,16 @@ const eventSlice = createSlice({
             state.loading = true;
         },
         [deleteEventVisitor.rejected]: (state, action) => {
+            state.loading = false;
+        },
+        [getEventVisitor.fulfilled]: (state, action) => {
+            state.loading=false;
+            state.error=null;
+        },
+        [getEventVisitor.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getEventVisitor.rejected]: (state, action) => {
             state.loading = false;
         },
     },

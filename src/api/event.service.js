@@ -55,6 +55,29 @@ export const deleteEventVisitor = (idEventVisitor) => {
         .then((result)=>result.data)
 };
 
+export const getEventVisitor = (event,visitor) => {
+
+    let urlFetch = 'conferences/visitor/';
+    let params= [];
+
+    if(event)
+    {
+        params.push(`event=${encodeURIComponent(event)}`);
+    }
+    if(visitor)
+    {
+        params.push(`visitor=${encodeURIComponent(visitor)}`);
+    }
+    if(params.length>0)
+    {
+        urlFetch += `?${params.join('&')}`;
+    }
+
+    return instance
+        .get(urlFetch)
+        .then((result)=>result.data)
+};
+
 
 const Events = {
     getAllEvents,
@@ -63,7 +86,8 @@ const Events = {
     updateEvent,
     getEvent,
     createEventVisitor,
-    deleteEventVisitor
+    deleteEventVisitor,
+    getEventVisitor
 };
 
 export default Events

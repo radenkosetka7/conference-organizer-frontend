@@ -6,7 +6,8 @@ import VisitorsModal from "../VisitorsModal/VisitorsModal";
 import MarksModal from "../MarksModal/MarksModal";
 import AddMark from "../MarksModal/AddMark";
 import VisitorAccordion from "./VisitorAccordion";
-import {getEvent} from "../../redux-store/eventSlice";
+import {createEventVisitor, deleteEventVisitor, getEvent, getEventVisitor} from "../../redux-store/eventSlice";
+import {eventAlreadyStarted} from "../../constant/constants";
 
 const VisitorAccordionItem = (props) => {
 
@@ -18,6 +19,7 @@ const VisitorAccordionItem = (props) => {
     const [showMarks, setShowMarks] = useState(false);
     const [showRateModal, setShowRateModal] = useState(false);
     const [conferenceForRate, setConferenceForRate] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
 
     const onClose = () => {
         setShowRateModal(false);
@@ -74,12 +76,31 @@ const VisitorAccordionItem = (props) => {
 
     const handleAttendEvent = (arg) =>
     {
+        const visitorRequest = {
+            event:arg.id,
+            visitor:user.id
+        };
+        dispath(createEventVisitor({value:visitorRequest}))
         props.onSave();
     }
 
     const handleLeftEvent = (arg) =>
     {
-        props.onSave();
+        const date = new Date();
+        if(formattedDate(date)<formattedDate(arg.start)) {
+
+            dispath(getEventVisitor({event: arg.id, visitor: user.id})).then((response) => {
+                dispath(deleteEventVisitor({id: response.payload[0].id})).then(response => {
+                    props.onSave();
+                }).catch((error) => {
+                });
+            }).catch((error) => {
+            });
+        }
+        else {
+            setErrorMessage(eventAlreadyStarted);
+        }
+
     }
 
     useEffect(() => {
@@ -103,7 +124,6 @@ const VisitorAccordionItem = (props) => {
         <div className="accordion-item">
             <div className={props.arg && props.arg.event_type ? "accordion-title-event" : "accordion-title"}>
                 <div>{props.arg.name}</div>
-                <p>Ciao</p>
                 {
                     props.arg && props.arg.ratings && props.arg.ratings.some(rating => rating.user.id === user.id) === false && props.arg.creator && props.arg.finished === 1 && (
                         <button className="button-edit"
@@ -117,7 +137,7 @@ const VisitorAccordionItem = (props) => {
                     )
                 }
                 {
-                    props.arg && props.arg.event_type && props.arg.event_visitors.some((v)=>v.visitor.id === user.id) === false && (
+                    props.arg && props.arg.event_type && props.arg.finished === 0 && props.arg.event_visitors.some((v)=>v.visitor.id === user.id) === false && (
                         <button className="button-edit1"
                                 onClick={() => {
                                     handleAttendEvent(props.arg);
@@ -129,7 +149,7 @@ const VisitorAccordionItem = (props) => {
                     )
                 }
                 {
-                    props.arg && props.arg.event_type && props.arg.event_visitors.some((v)=>v.visitor.id === user.id) === true && (
+                    props.arg && props.arg.event_type && props.arg.finished === 0 && formattedDate(new Date())<formattedDate(props.arg.start) && props.arg.event_visitors.some((v)=>v.visitor.id === user.id) === true && (
                         <button className="button-edit1"
                                 onClick={() => {
                                     handleLeftEvent(props.arg);

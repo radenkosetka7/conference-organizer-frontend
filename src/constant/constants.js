@@ -10,3 +10,9 @@ export const passwordContainsDigits = "Password can't contain only digits";
 export const createConferenceString = "Create new conference.";
 
 export const editConferenceString = "Edit conference.";
+
+export const eventAlreadyStarted = "The event already started!"
+
+export const eventRegister= "You are registered for the event."
+
+export const eventUnregister= "You are left the event.";

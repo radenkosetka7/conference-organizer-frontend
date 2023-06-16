@@ -131,7 +131,7 @@ const Accordion = (props) => {
             <div className="accordion">
                 {props.events ? (
                     events.map((event) => (
-                        <AccordionItem key={event.id} arg={event}/>
+                        <AccordionItem key={event.id} arg={event} onSave={handleSaveObrisi}/>
                     ))
                 ) : (
                     confs.map((conf) => (
