@@ -38,7 +38,7 @@ export default function Register() {
     };
 
     const notify = () => {
-        toast.success('Successfully registered! Please wait for the administrator to approve your account!', {
+        toast.success('Successfully registered!', {
             position: "bottom-right",
             autoClose: 2000,
             hideProgressBar: false,

@@ -1,6 +1,6 @@
 import Modal from "../Modal/Modal";
 import { useDispatch } from "react-redux";
-import {deleteConference} from "../../redux-store/conferenceSlice";
+import {deleteConference, updateConference} from "../../redux-store/conferenceSlice";
 import classes from "./Delete.module.css"
 const Delete = (props) => {
     const { onClose, conference,  idConf } = props;
@@ -8,7 +8,11 @@ const Delete = (props) => {
 
     const handleObrisi = () => {
 
-        dispatch(deleteConference({ id:idConf }))
+        const confReq = {
+            finished:3,
+        };
+        console.log("ovo je zahtjev",confReq);
+        dispatch(deleteConference({ id:idConf, value:confReq }))
             .then((response) => {
                 console.log("response !", response);
                 onClose(); // Zatvorite modal nakon brisanja konferencije

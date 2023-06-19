@@ -38,9 +38,9 @@ export const updateConference = (idConference,dataToUpdate) => {
         .then((result)=>result.data)
 };
 
-export const deleteConference = (idConference) => {
+export const deleteConference = (idConference,dataToUpdate) => {
     return instance
-        .delete(`conferences/conferences/${idConference}`)
+        .patch(`conferences/conferences/${idConference}`,dataToUpdate)
         .then((result)=>result.data)
 };
 

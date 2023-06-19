@@ -26,9 +26,12 @@ export const getConference = createAsyncThunk("conferences/getConference", async
 });
 
 
-export const deleteConference = createAsyncThunk("conferences/deleteConference", async ({id}, {rejectWithValue}) => {
+export const deleteConference = createAsyncThunk("conferences/deleteConference", async ({
+                                                                                            id,
+                                                                                            value
+                                                                                        }, {rejectWithValue}) => {
     try {
-        return await conferenceService.deleteConference(id);
+        return await conferenceService.deleteConference(id,value);
     } catch (err) {
         return rejectWithValue("Error while deleting model. Please try later.");
     }

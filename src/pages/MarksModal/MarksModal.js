@@ -2,6 +2,17 @@ import { Button, Modal } from 'antd';
 
 const MarksModal = ({arg,show,onClose}) => {
     const title1=`${arg.name} Marks`;
+
+    const formattedDate = (date) =>
+        new Date(date).toLocaleDateString('en-US', {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+        });
     return (
         <>
             <Modal maskClosable={false} title={title1} footer={[
@@ -16,6 +27,7 @@ const MarksModal = ({arg,show,onClose}) => {
                             <div><label>Stars: {user.stars}</label></div>
                            <div> <label>Comment: {user.comment}</label></div>
                            <div> <label>User: {user.user.first_name} {user.user.last_name}</label></div>
+                            <div> <label>Date: {formattedDate(user.date)}</label></div>
                         </li>
                     ))}
                     {
