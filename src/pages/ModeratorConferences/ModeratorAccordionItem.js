@@ -160,7 +160,7 @@ const ModeratorAccordionItem = (props) => {
                         </>)
                     }
                     <div style={{marginBottom: "15px"}}>
-                        {props.arg && props.arg.event_type && (
+                        {props.arg && props.arg.event_type && props.arg.room && (
                             <>
                                 <label>Room: </label>
                                 <span>{props.arg.room.name}</span>

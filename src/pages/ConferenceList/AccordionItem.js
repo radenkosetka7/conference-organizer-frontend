@@ -281,7 +281,7 @@ const AccordionItem = (props) => {
                         </>)
                     }
                     <div style={{marginBottom: "15px"}}>
-                        {props.arg && props.arg.moderator && (
+                        {props.arg && props.arg.moderator && props.arg.room && (
                             <>
                                 <label>Room: </label>
                                 <span>{props.arg.room.name}</span>
@@ -289,7 +289,7 @@ const AccordionItem = (props) => {
                         )}
                     </div>
                     <div style={{marginBottom: "15px"}}>
-                        {props.arg && props.arg.moderator && (
+                        {props.arg && props.arg.moderator && props.arg.event_type && (
                             <>
                                 <label>Event type: </label>
                                 <span>{props.arg.event_type.name}</span>
